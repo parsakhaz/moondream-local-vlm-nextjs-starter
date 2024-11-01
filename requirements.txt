@@ -1,0 +1,9 @@
+fastapi==0.115.4
+uvicorn==0.32.0
+python-multipart==0.0.17
+transformers==4.46.1
+torch==2.5.1+cu121
+torchvision==0.20.1+cu121
+Pillow==11.0.0
+typing_extensions==4.12.2
+requests==2.32.3
