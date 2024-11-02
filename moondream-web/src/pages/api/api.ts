@@ -1,7 +1,7 @@
 // services/api.js
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8000';
+const API_URL = 'http://127.0.0.1:8000';
 
 const api = axios.create({
   baseURL: API_URL,
@@ -42,7 +42,25 @@ interface ChatCompletionResponse {
   };
 }
 
-export const describeImage = async (imageFile: File): Promise<string> => {
+// Define the ChatResponse type that was missing
+interface ChatResponse {
+  image_index: number;
+  model: string;
+  created: number;
+  response: Message;
+  usage: {
+    prompt_tokens: number;
+    completion_tokens: number;
+    total_tokens: number;
+  };
+}
+
+interface DescribeResponse {
+  description: string;
+  image_key: string;
+}
+
+export const describeImage = async (imageFile: File): Promise<DescribeResponse> => {
   const formData = new FormData();
   formData.append('file', imageFile);
 
@@ -52,7 +70,7 @@ export const describeImage = async (imageFile: File): Promise<string> => {
         'Content-Type': 'multipart/form-data',
       },
     });
-    return response.data.description;
+    return response.data;
   } catch (error) {
     console.error('Error describing image:', error);
     throw error;

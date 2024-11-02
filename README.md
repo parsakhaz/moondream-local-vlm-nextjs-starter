@@ -1,191 +1,196 @@
 # Moondream Web Interface
 
-A modern web interface for the Moondream vision language model, built with Next.js and FastAPI. This project allows you to run image understanding tasks entirely locally with OpenAI API compatibility.
+A modern web interface for the Moondream vision language model, built with Next.js and FastAPI. This project provides a user-friendly way to interact with images using Moondream's vision-language capabilities.
 
-## Tested Environment
+## Core Features
 
-This project has been thoroughly tested on:
-- Lenovo Legion 7i
-- Windows 11 Pro
-- NVIDIA RTX 4090M GPU (16GB VRAM)
-- 32GB System RAM
-- Intel i9-13900HX CPU
+- 🖼️ **Image Analysis**: Upload and analyze images using Moondream's vision model
+- 💬 **Interactive Q&A**: Ask questions about uploaded images
+- 🚀 **Efficient Processing**: Uses image encoding caching for faster responses
+- 🔒 **Privacy-First**: All processing happens locally on your machine
+- ⚡ **CUDA Support**: GPU acceleration for faster inference
+- 🎨 **Modern UI**: Built with Next.js, Tailwind CSS, and Framer Motion
 
-## Prerequisites
+## Architecture
 
-### System Requirements
-- NVIDIA GPU with 8GB+ VRAM (tested on RTX 4090M)
-- Windows 11 (or Linux/macOS with equivalent setup)
-- Python 3.8 or higher
+### Frontend (Next.js)
+- **Image Upload Component**: Handles image selection and preview
+- **Chat Interface**: Interactive Q&A about uploaded images
+- **State Management**: Maintains image and chat state
+- **API Integration**: Communicates with FastAPI backend
+
+### Backend (FastAPI)
+- **Model Management**: Loads and manages Moondream model
+- **Image Processing**: Handles image encoding and caching
+- **Q&A System**: Processes questions about encoded images
+- **Memory Management**: Cleans up cached encodings
+
+## Detailed API Flow
+
+### Image Description Flow
+1. User uploads image via frontend
+2. Image sent to `/describe` endpoint
+3. Backend encodes image and caches encoding
+4. Model generates description
+5. Frontend displays description and enables Q&A
+
+### Question-Answer Flow
+1. User types question in chat interface
+2. Question sent to `/ask` endpoint with image key
+3. Backend retrieves cached encoding
+4. Model generates answer
+5. Frontend displays response in chat
+
+## Installation
+
+### Prerequisites
+~~~bash
+# System Requirements
+- Python 3.8+
 - Node.js 16+
-- 16GB+ System RAM recommended
+- CUDA-capable GPU (recommended)
+- 8GB+ RAM
 
-### CUDA Setup
+# Python Dependencies
+pip install transformers einops torch fastapi uvicorn python-multipart pillow
 
-1. Install NVIDIA GPU Drivers
-   - Download latest Game Ready Driver from NVIDIA website
-   - Verify installation:
-   ~~~bash
-   nvidia-smi
-   ~~~
-
-2. Install CUDA Toolkit 12.1
-   - Download from NVIDIA Developer portal
-   - Run network installer
-   - Add CUDA paths to system environment variables
-   - Verify installation:
-   ~~~bash
-   nvcc --version
-   ~~~
-
-3. Install PyTorch with CUDA support
-   ~~~bash
-   pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
-   ~~~
-
-## Installation Guide
+# Node.js Dependencies
+npm install axios framer-motion @radix-ui/react-slot formidable
+~~~
 
 ### Backend Setup
+~~~bash
+# Clone repository
+git clone [repository-url]
+cd moondream-web
 
-1. Clone the repository
-   ~~~bash
-   git clone https://github.com/yourusername/moondream-web.git
-   cd moondream-web
-   ~~~
+# Install Python dependencies
+pip install -r requirements.txt
 
-2. Create and activate virtual environment
-   ~~~bash
-   python -m venv venv
-   .\venv\Scripts\activate  # Windows
-   source venv/bin/activate # Linux/macOS
-   ~~~
-
-3. Install Python dependencies
-   ~~~bash
-   pip install -r requirements.txt
-   ~~~
-
-4. Verify CUDA setup
-   ~~~bash
-   python test_pytorch-cuda.py
-   ~~~
-
-5. Start FastAPI server
-   ~~~bash
-   uvicorn app:app --host 0.0.0.0 --port 8000 --reload
-   ~~~
+# Start FastAPI server
+uvicorn app:app --host 127.0.0.1 --port 8000 --reload
+~~~
 
 ### Frontend Setup
-
-1. Navigate to frontend directory
-   ~~~bash
-   cd moondream-web
-   ~~~
-
-2. Install Node.js dependencies
-   ~~~bash
-   npm install
-   ~~~
-
-3. Create environment file
-   ~~~bash
-   cp .env.example .env.local
-   ~~~
-
-4. Start development server
-   ~~~bash
-   npm run dev
-   ~~~
-
-## Features
-
-- 🔄 OpenAI API-compatible endpoints
-- 🖼️ Local image processing with Moondream vision language model
-- 🚀 Modern, responsive UI built with Next.js
-- 🔒 Privacy-first approach - all processing happens locally
-- ⚡ CUDA acceleration support
-- 🎨 Sleek design with Tailwind CSS and Framer Motion animations
-
-## API Usage Examples
-
-### OpenAI SDK
-~~~python
-from openai import OpenAI
-
-client = OpenAI(
-    base_url="http://localhost:8000/v1",
-    api_key="not-needed"  # Can be any string
-)
-
-response = await client.chat.completions.create(
-    model="moondream-v2",
-    messages=[
-        {"role": "user", "content": "What's in this image?"}
-    ]
-)
-~~~
-
-### Langchain
-~~~python
-from langchain.chat_models import ChatOpenAI
-from langchain.schema import HumanMessage
-
-chat = ChatOpenAI(
-    base_url="http://localhost:8000/v1",
-    api_key="not-needed",
-    model="moondream-v2"
-)
-
-messages = [HumanMessage(content="What's in this image?")]
-response = chat.invoke(messages)
-~~~
-
-### Direct API Call
 ~~~bash
-curl -X POST http://localhost:8000/v1/chat/completions \
-    -H "Content-Type: multipart/form-data" \
-    -F "file=@image.jpg" \
-    -F 'messages=[{"role":"user","content":"What is in this image?"}]'
+# Navigate to frontend directory
+cd moondream-web
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
 ~~~
+
+## API Endpoints
+
+### `/describe` (POST)
+Handles initial image upload and description
+- Input: Image file (multipart/form-data)
+- Output: 
+  ~~~json
+  {
+    "description": "Generated description of the image",
+    "image_key": "Unique key for cached encoding"
+  }
+  ~~~
+
+### `/ask` (POST)
+Handles questions about previously uploaded images
+- Input: 
+  ~~~json
+  {
+    "question": "User's question about the image",
+    "image_key": "Key from previous describe call"
+  }
+  ~~~
+- Output:
+  ~~~json
+  {
+    "answer": "Model's answer to the question"
+  }
+  ~~~
+
+### `/health` (GET)
+System health and status check
+- Output:
+  ~~~json
+  {
+    "status": "healthy",
+    "model_loaded": true,
+    "tokenizer_loaded": true,
+    "cuda_available": true,
+    "device": "cuda:0"
+  }
+  ~~~
+
+## Implementation Details
+
+### Image Encoding Cache
+- Stores encoded images in memory using unique timestamps
+- Enables fast subsequent Q&A without re-encoding
+- Automatically cleans up on server restart
+
+### Error Handling
+- Frontend displays user-friendly error messages
+- Backend provides detailed error logging
+- Graceful fallbacks for common failure cases
+
+### Performance Optimizations
+- Uses torch.float16 for reduced memory usage
+- CUDA acceleration when available
+- Efficient image encoding caching
+- Streaming responses for large payloads
+
+## Development
+
+### Code Structure
+~~~
+moondream-web/
+├── src/
+│   ├── components/
+│   │   ├── ImageUploader.tsx   # Image upload and description
+│   │   └── Chat.tsx           # Q&A interface
+│   ├── pages/
+│   │   ├── api/
+│   │   │   ├── ask.ts         # Question handling endpoint
+│   │   │   └── api.ts         # API utilities
+│   │   └── index.tsx          # Main page
+└── app.py                      # FastAPI backend
+~~~
+
+### Development Workflow
+1. Make changes to frontend or backend
+2. Backend auto-reloads with uvicorn
+3. Frontend hot-reloads with Next.js
+4. Test changes in development environment
 
 ## Troubleshooting
 
 ### Common Issues
+1. CUDA Memory Errors
+   - Reduce batch size
+   - Close other GPU applications
+   - Monitor memory usage with `nvidia-smi`
 
-1. CUDA Not Detected
-   - Verify NVIDIA drivers with `nvidia-smi`
-   - Check CUDA installation with `nvcc --version`
-   - Ensure PyTorch CUDA compatibility
+2. Connection Errors
+   - Verify FastAPI server is running
+   - Check correct ports are open
+   - Ensure correct IP addresses (127.0.0.1)
 
-2. Out of Memory Errors
-   - Close other GPU-intensive applications
-   - Reduce batch size if processing multiple images
-   - Consider using a GPU with more VRAM
-
-3. Frontend Connection Issues
-   - Verify backend server is running
-   - Check port configurations
-   - Ensure no firewall blocking
-
-### Performance Optimization
-
-1. GPU Optimization
-   - Enable hardware-accelerated GPU scheduling in Windows
-   - Update to latest NVIDIA drivers
-   - Monitor GPU usage with Task Manager
-
-2. System Configuration
-   - Set Windows power plan to "High Performance"
-   - Allocate sufficient virtual memory
-   - Close unnecessary background applications
+3. Image Processing Errors
+   - Verify supported image formats
+   - Check image file size
+   - Monitor server logs
 
 ## Contributing
 
 1. Fork the repository
 2. Create feature branch
-3. Commit changes
-4. Push to branch
-5. Create Pull Request
+3. Implement changes
+4. Add tests if applicable
+5. Submit pull request
 
 ## License
 
