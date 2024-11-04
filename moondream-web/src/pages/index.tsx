@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import Link from 'next/link';
 import { Button } from '../components/ui/button';
+import { ThemeToggle } from '../components/ThemeToggle';
 
 export default function Home() {
 	const { ref: headerRef, inView: headerInView } = useInView({ triggerOnce: true });
@@ -13,19 +14,19 @@ export default function Home() {
 
 	const fadeInVariants = {
 		hidden: { opacity: 0, y: 20 },
-		visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+		visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
 	};
 
 	const scaleUpVariants = {
 		hidden: { scale: 0.95, opacity: 0 },
-		visible: { scale: 1, opacity: 1, transition: { duration: 0.5, ease: "easeOut" } },
+		visible: { scale: 1, opacity: 1, transition: { duration: 0.5, ease: 'easeOut' } },
 	};
 
 	return (
 		<>
 			<Head>
 				<title>Moondream - Local Vision Language Model</title>
-				<meta name="description" content="Run Moondream locally - A lightweight vision language model for accurate image understanding" />
+				<meta name='description' content='Run Moondream locally - A lightweight vision language model for accurate image understanding' />
 				<meta name='viewport' content='width=device-width, initial-scale=1' />
 				<link rel='icon' href='/favicon.ico' />
 				<link rel='apple-touch-icon' sizes='180x180' href='/apple-touch-icon.png' />
@@ -37,14 +38,14 @@ export default function Home() {
 				<meta property='og:type' content='website' />
 			</Head>
 
-			<div className='min-h-screen flex flex-col bg-[#0A0A0B]'>
+			<div className='min-h-screen flex flex-col bg-light-primary dark:bg-dark-primary'>
 				{/* Header */}
 				<motion.header
 					ref={headerRef}
 					initial='hidden'
 					animate={headerInView ? 'visible' : 'hidden'}
 					variants={fadeInVariants}
-					className='fixed top-0 w-full backdrop-blur-md bg-black/50 z-50 border-b border-[#2E2E2E]'
+					className='fixed top-0 w-full backdrop-blur-md bg-light-primary/50 dark:bg-dark-primary/50 z-50 border-b border-light-border dark:border-dark-border'
 				>
 					<nav className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
 						<div className='flex justify-between h-16 items-center'>
@@ -59,20 +60,28 @@ export default function Home() {
 									strokeWidth='2'
 									strokeLinecap='round'
 									strokeLinejoin='round'
-									className='text-blue-400 group-hover:text-blue-300 transition-colors'
+									className='text-light-accent dark:text-dark-accent group-hover:text-light-accent/80 dark:group-hover:text-dark-accent/80 transition-colors'
 									aria-hidden='true'
 								>
 									<circle cx='12' cy='12' r='3'></circle>
 									<path d='M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z'></path>
 								</svg>
-								<span className='font-medium text-lg text-white group-hover:text-blue-100 transition-colors'>Moondream</span>
+								<span className='font-medium text-lg text-light-text dark:text-dark-text group-hover:text-light-accent dark:group-hover:text-dark-accent transition-colors'>
+									Moondream
+								</span>
 							</Link>
 
 							<div className='flex items-center space-x-6'>
-								<a href="https://github.com/vikhyat/moondream" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-white transition-colors">
+								<ThemeToggle />
+								<a
+									href='https://github.com/vikhyat/moondream'
+									target='_blank'
+									rel='noopener noreferrer'
+									className='text-light-text/70 dark:text-dark-text/70 hover:text-light-text dark:hover:text-dark-text transition-colors'
+								>
 									GitHub
 								</a>
-								<Button className='bg-blue-500 hover:bg-blue-400 text-white font-medium rounded-lg px-4 py-2 transition-all hover:scale-105'>
+								<Button className='bg-light-accent dark:bg-dark-accent hover:bg-light-accent/90 dark:hover:bg-dark-accent/90 text-white font-medium rounded-lg px-4 py-2 transition-all hover:scale-105'>
 									Get Started
 								</Button>
 							</div>
@@ -90,59 +99,58 @@ export default function Home() {
 				>
 					<div className='max-w-4xl mx-auto text-center'>
 						<motion.div variants={scaleUpVariants}>
-							<span className='inline-flex items-center px-3 py-1 text-sm font-medium rounded-full bg-blue-500/20 text-blue-300 ring-1 ring-blue-500/30 mb-8'>
+							<span className='inline-flex items-center px-3 py-1 text-sm font-medium rounded-full bg-light-accent/20 dark:bg-dark-accent/20 text-light-accent dark:text-dark-accent ring-1 ring-light-accent/30 dark:ring-dark-accent/30 mb-8'>
 								Run 100% Locally
 							</span>
-							<h1 className='text-5xl sm:text-6xl lg:text-7xl font-bold text-white tracking-tight leading-tight'>
+							<h1 className='text-5xl sm:text-6xl lg:text-7xl font-bold text-light-text dark:text-dark-text tracking-tight leading-tight'>
 								Local Vision Language Model
-								<span className='block mt-2 bg-gradient-to-r from-blue-300 via-blue-400 to-blue-500 bg-clip-text text-transparent'>For Everyone</span>
+								<span className='block mt-2 bg-gradient-to-r from-light-accent to-light-accent/70 dark:from-dark-accent dark:to-dark-accent/70 bg-clip-text text-transparent'>
+									For Everyone
+								</span>
 							</h1>
 						</motion.div>
-						<p className='mt-8 text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed'>
-							Experience Moondream - a lightweight yet powerful vision language model that runs entirely on your machine. Built with Next.js frontend and FastAPI backend for seamless local deployment.
+						<p className='mt-8 text-lg sm:text-xl text-light-text/70 dark:text-dark-text/70 max-w-2xl mx-auto leading-relaxed'>
+							Experience Moondream - a lightweight yet powerful vision language model that runs entirely on your machine. Built with Next.js frontend and FastAPI backend for
+							seamless local deployment.
 						</p>
 					</div>
 
-					<motion.div 
+					<motion.div
 						variants={scaleUpVariants}
-						className='w-full max-w-3xl mx-auto mt-16 bg-[#121214] backdrop-blur-xl rounded-2xl border border-gray-700 p-8 shadow-2xl hover:border-blue-600/50 transition-colors [&_*]:text-gray-200'
+						className='w-full max-w-3xl mx-auto mt-16 bg-light-secondary dark:bg-dark-secondary backdrop-blur-xl rounded-2xl border border-light-border dark:border-dark-border p-8 shadow-2xl hover:border-light-accent/50 dark:hover:border-dark-accent/50 transition-colors'
 					>
 						<ImageUploader />
 					</motion.div>
 				</motion.main>
 
 				{/* Features */}
-				<motion.section
-					ref={featuresRef}
-					initial='hidden'
-					animate={featuresInView ? 'visible' : 'hidden'}
-					variants={fadeInVariants}
-					className='py-32 px-4 sm:px-6 lg:px-8'
-				>
+				<motion.section ref={featuresRef} initial='hidden' animate={featuresInView ? 'visible' : 'hidden'} variants={fadeInVariants} className='py-32 px-4 sm:px-6 lg:px-8'>
 					<div className='max-w-7xl mx-auto'>
 						<div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
 							{[
 								{
 									title: 'Local Processing',
-									description: 'Run the entire vision language model locally with CUDA acceleration support'
+									description: 'Run the entire vision language model locally with CUDA acceleration support',
 								},
 								{
 									title: 'Privacy First',
-									description: 'Your images never leave your machine - perfect for sensitive data analysis'
+									description: 'Your images never leave your machine - perfect for sensitive data analysis',
 								},
 								{
 									title: 'Developer Friendly',
-									description: 'Built on Next.js and FastAPI with hot reloading and TypeScript support'
-								}
+									description: 'Built on Next.js and FastAPI with hot reloading and TypeScript support',
+								},
 							].map((feature, index) => (
 								<motion.div
 									key={index}
 									variants={scaleUpVariants}
 									whileHover={{ scale: 1.02 }}
-									className='group bg-[#121214] backdrop-blur-xl p-8 rounded-xl border border-gray-700 hover:border-blue-500/50 transition-colors'
+									className='group bg-light-secondary dark:bg-dark-secondary backdrop-blur-xl p-8 rounded-xl border border-light-border dark:border-dark-border hover:border-light-accent/50 dark:hover:border-dark-accent/50 transition-colors'
 								>
-									<h3 className='text-xl font-semibold text-white mb-3 group-hover:text-blue-300 transition-colors'>{feature.title}</h3>
-									<p className='text-gray-300 leading-relaxed'>{feature.description}</p>
+									<h3 className='text-xl font-semibold text-light-text dark:text-dark-text mb-3 group-hover:text-light-accent dark:group-hover:text-dark-accent transition-colors'>
+										{feature.title}
+									</h3>
+									<p className='text-light-text/70 dark:text-dark-text/70 leading-relaxed'>{feature.description}</p>
 								</motion.div>
 							))}
 						</div>
@@ -155,17 +163,23 @@ export default function Home() {
 					initial='hidden'
 					animate={footerInView ? 'visible' : 'hidden'}
 					variants={fadeInVariants}
-					className='mt-auto border-t border-[#2E2E2E] bg-black/50 backdrop-blur-sm'
+					className='mt-auto border-t border-light-border dark:border-dark-border bg-light-primary/50 dark:bg-dark-primary/50 backdrop-blur-sm'
 				>
 					<div className='max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8'>
 						<div className='flex flex-col md:flex-row justify-between items-center'>
 							<div className='flex items-center space-x-2'>
-								<span className='text-gray-400 text-sm'>© {new Date().getFullYear()} Moondream</span>
+								<span className='text-light-text/60 dark:text-dark-text/60 text-sm'>© {new Date().getFullYear()} Moondream</span>
 							</div>
 							<div className='flex space-x-8 mt-4 md:mt-0'>
-								<a href="#" className='text-gray-400 hover:text-blue-300 transition-colors'>Documentation</a>
-								<a href="#" className='text-gray-400 hover:text-blue-300 transition-colors'>GitHub</a>
-								<a href="#" className='text-gray-400 hover:text-blue-300 transition-colors'>Contact</a>
+								<a href='#' className='text-light-text/60 dark:text-dark-text/60 hover:text-light-accent dark:hover:text-dark-accent transition-colors'>
+									Documentation
+								</a>
+								<a href='#' className='text-light-text/60 dark:text-dark-text/60 hover:text-light-accent dark:hover:text-dark-accent transition-colors'>
+									GitHub
+								</a>
+								<a href='#' className='text-light-text/60 dark:text-dark-text/60 hover:text-light-accent dark:hover:text-dark-accent transition-colors'>
+									Contact
+								</a>
 							</div>
 						</div>
 					</div>

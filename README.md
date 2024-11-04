@@ -4,17 +4,20 @@ A modern web interface for the Moondream vision language model, built with Next.
 
 ## Core Features
 
-- 🖼️ **Image Analysis**: Upload and analyze images using Moondream's vision model
-- 💬 **Interactive Q&A**: Ask questions about uploaded images
-- 🚀 **Efficient Processing**: Uses image encoding caching for faster responses
+- 🌓 **Light/Dark Mode**: Automatic theme switching with system preference detection
+- 🖼️ **Drag-and-Drop Upload**: Easy image uploading with drag-and-drop support
+- 💬 **Interactive Q&A**: Ask questions about uploaded images through a chat interface
+- 🚀 **Smooth Animations**: Beautiful transitions powered by Framer Motion
 - 🔒 **Privacy-First**: All processing happens locally on your machine
+- 📱 **Responsive Design**: Optimized for all devices and screen sizes
 - ⚡ **CUDA Support**: GPU acceleration for faster inference
 - 🎨 **Modern UI**: Built with Next.js, Tailwind CSS, and Framer Motion
 
 ## Architecture
 
 ### Frontend (Next.js)
-- **Image Upload Component**: Handles image selection and preview
+- **Theme System**: Light/dark mode with system preference detection
+- **Image Upload Component**: Drag-and-drop image handling and preview
 - **Chat Interface**: Interactive Q&A about uploaded images
 - **State Management**: Maintains image and chat state
 - **API Integration**: Communicates with FastAPI backend
@@ -127,6 +130,12 @@ System health and status check
 
 ## Implementation Details
 
+### Theme System
+- Uses next-themes for theme management
+- Automatically detects system color scheme preference
+- Smooth transitions between light and dark modes
+- Persists user theme preference
+
 ### Image Encoding Cache
 - Stores encoded images in memory using unique timestamps
 - Enables fast subsequent Q&A without re-encoding
@@ -150,14 +159,20 @@ System health and status check
 moondream-web/
 ├── src/
 │   ├── components/
-│   │   ├── ImageUploader.tsx   # Image upload and description
-│   │   └── Chat.tsx           # Q&A interface
+│   │   ├── ui/               # Reusable UI components
+│   │   ├── ImageUpload.tsx   # Image upload component
+│   │   └── Chat.tsx         # Chat interface component
 │   ├── pages/
 │   │   ├── api/
-│   │   │   ├── ask.ts         # Question handling endpoint
-│   │   │   └── api.ts         # API utilities
-│   │   └── index.tsx          # Main page
-└── app.py                      # FastAPI backend
+│   │   │   ├── ask.ts       # Question handling endpoint
+│   │   │   └── api.ts       # API utilities
+│   │   ├── _app.tsx         # App configuration
+│   │   ├── _document.tsx    # Document configuration
+│   │   └── index.tsx        # Main page
+│   └── styles/
+│       └── globals.css      # Global styles
+├── public/                  # Static assets
+└── app.py                  # FastAPI backend
 ~~~
 
 ### Development Workflow
@@ -201,6 +216,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - Built on [Moondream](https://github.com/vikhyat/moondream) model
 - UI components from [shadcn/ui](https://ui.shadcn.com/)
 - Animations by [Framer Motion](https://www.framer.com/motion/)
+- Theme system by [next-themes](https://github.com/pacocoursey/next-themes)
 
 ---
 
