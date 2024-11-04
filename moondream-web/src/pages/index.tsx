@@ -168,16 +168,16 @@ export default function Home() {
 					<div className='max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8'>
 						<div className='flex flex-col md:flex-row justify-between items-center'>
 							<div className='flex items-center space-x-2'>
-								<span className='text-light-text/60 dark:text-dark-text/60 text-sm'>© {new Date().getFullYear()} Moondream</span>
+								<span className='text-light-text/60 dark:text-dark-text/60 text-sm'>© {new Date().getFullYear()} Parsa Khazaeepoul</span>
 							</div>
 							<div className='flex space-x-8 mt-4 md:mt-0'>
-								<a href='#' className='text-light-text/60 dark:text-dark-text/60 hover:text-light-accent dark:hover:text-dark-accent transition-colors'>
+								<a href='https://moondream.ai/docs' className='text-light-text/60 dark:text-dark-text/60 hover:text-light-accent dark:hover:text-dark-accent transition-colors'>
 									Documentation
 								</a>
-								<a href='#' className='text-light-text/60 dark:text-dark-text/60 hover:text-light-accent dark:hover:text-dark-accent transition-colors'>
-									GitHub
+								<a href='https://github.com/parsakhaz/moondream-local-vlm-nextjs-starter' className='text-light-text/60 dark:text-dark-text/60 hover:text-light-accent dark:hover:text-dark-accent transition-colors'>
+									GitHub for Starter Template
 								</a>
-								<a href='#' className='text-light-text/60 dark:text-dark-text/60 hover:text-light-accent dark:hover:text-dark-accent transition-colors'>
+								<a href='mailto:contact@moondream.ai' className='text-light-text/60 dark:text-dark-text/60 hover:text-light-accent dark:hover:text-dark-accent transition-colors'>
 									Contact
 								</a>
 							</div>

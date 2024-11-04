@@ -16,6 +16,7 @@ A modern web interface for the Moondream vision language model, built with Next.
 ## Architecture
 
 ### Frontend (Next.js)
+
 - **Theme System**: Light/dark mode with system preference detection
 - **Image Upload Component**: Drag-and-drop image handling and preview
 - **Chat Interface**: Interactive Q&A about uploaded images
@@ -23,6 +24,7 @@ A modern web interface for the Moondream vision language model, built with Next.
 - **API Integration**: Communicates with FastAPI backend
 
 ### Backend (FastAPI)
+
 - **Model Management**: Loads and manages Moondream model
 - **Image Processing**: Handles image encoding and caching
 - **Q&A System**: Processes questions about encoded images
@@ -31,6 +33,7 @@ A modern web interface for the Moondream vision language model, built with Next.
 ## Detailed API Flow
 
 ### Image Description Flow
+
 1. User uploads image via frontend
 2. Image sent to `/describe` endpoint
 3. Backend encodes image and caches encoding
@@ -38,6 +41,7 @@ A modern web interface for the Moondream vision language model, built with Next.
 5. Frontend displays description and enables Q&A
 
 ### Question-Answer Flow
+
 1. User types question in chat interface
 2. Question sent to `/ask` endpoint with image key
 3. Backend retrieves cached encoding
@@ -47,6 +51,7 @@ A modern web interface for the Moondream vision language model, built with Next.
 ## Installation
 
 ### Prerequisites
+
 ~~~bash
 # System Requirements
 - Python 3.8+
@@ -62,6 +67,7 @@ npm install axios framer-motion @radix-ui/react-slot formidable
 ~~~
 
 ### Backend Setup
+
 ~~~bash
 # Clone repository
 git clone [repository-url]
@@ -75,6 +81,7 @@ uvicorn app:app --host 127.0.0.1 --port 8000 --reload
 ~~~
 
 ### Frontend Setup
+
 ~~~bash
 # Navigate to frontend directory
 cd moondream-web
@@ -89,9 +96,12 @@ npm run dev
 ## API Endpoints
 
 ### `/describe` (POST)
+
 Handles initial image upload and description
+
 - Input: Image file (multipart/form-data)
-- Output: 
+- Output:
+
   ~~~json
   {
     "description": "Generated description of the image",
@@ -100,15 +110,20 @@ Handles initial image upload and description
   ~~~
 
 ### `/ask` (POST)
+
 Handles questions about previously uploaded images
-- Input: 
+
+- Input:
+
   ~~~json
   {
     "question": "User's question about the image",
     "image_key": "Key from previous describe call"
   }
   ~~~
+
 - Output:
+
   ~~~json
   {
     "answer": "Model's answer to the question"
@@ -116,8 +131,11 @@ Handles questions about previously uploaded images
   ~~~
 
 ### `/health` (GET)
+
 System health and status check
+
 - Output:
+
   ~~~json
   {
     "status": "healthy",
@@ -131,22 +149,26 @@ System health and status check
 ## Implementation Details
 
 ### Theme System
+
 - Uses next-themes for theme management
 - Automatically detects system color scheme preference
 - Smooth transitions between light and dark modes
 - Persists user theme preference
 
 ### Image Encoding Cache
+
 - Stores encoded images in memory using unique timestamps
 - Enables fast subsequent Q&A without re-encoding
 - Automatically cleans up on server restart
 
 ### Error Handling
+
 - Frontend displays user-friendly error messages
 - Backend provides detailed error logging
 - Graceful fallbacks for common failure cases
 
 ### Performance Optimizations
+
 - Uses torch.float16 for reduced memory usage
 - CUDA acceleration when available
 - Efficient image encoding caching
@@ -155,6 +177,7 @@ System health and status check
 ## Development
 
 ### Code Structure
+
 ~~~
 moondream-web/
 ├── src/
@@ -176,6 +199,7 @@ moondream-web/
 ~~~
 
 ### Development Workflow
+
 1. Make changes to frontend or backend
 2. Backend auto-reloads with uvicorn
 3. Frontend hot-reloads with Next.js
@@ -184,6 +208,7 @@ moondream-web/
 ## Troubleshooting
 
 ### Common Issues
+
 1. CUDA Memory Errors
    - Reduce batch size
    - Close other GPU applications
